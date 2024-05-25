@@ -1,10 +1,7 @@
 package org.mobitel.springrest.Controller;
 
 import org.mobitel.springrest.Bean.HelloWorldBean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1")
@@ -21,6 +18,11 @@ public class HelloWorldController {
         return new HelloWorldBean("Hello World");
     }
 
+    // video 5
+    @GetMapping("/hello-world/path-variable/{name}")
+    public HelloWorldBean helloWorldPathVariable(@PathVariable String name){
+            return new HelloWorldBean("Hello World " +name);
+    }
 
 
 }

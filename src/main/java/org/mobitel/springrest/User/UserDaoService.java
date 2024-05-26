@@ -32,8 +32,18 @@ public class UserDaoService {
 
     public User findOne(int id){
         Predicate<? super User> predicate= user-> user.getId().equals(id);
-        return   users.stream().filter(predicate).findFirst().get();
+        return   users.stream().filter(predicate).findFirst().orElse(null);
     }
 
 
+    public boolean deleteUserById(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+
+        Predicate<? super User> predicate = user -> user.getId().equals(id);
+        boolean removed = users.removeIf(predicate);
+
+        return removed;
+    }
 }

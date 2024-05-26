@@ -1,6 +1,7 @@
 package org.mobitel.springrest.Controller;
 
 
+import jakarta.validation.Valid;
 import org.mobitel.springrest.Exception.UserNotFoundException;
 import org.mobitel.springrest.User.User;
 import org.mobitel.springrest.User.UserDaoService;
@@ -43,10 +44,16 @@ public class UserController {
     // enhancing above POST method
 
   @PostMapping("")
-  public ResponseEntity<Object> saveUser(@RequestBody User user){
+  public ResponseEntity<Object> saveUser(@Valid @RequestBody User user){
       User savedUser= this.userDaoService.save(user);
       URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId()).toUri();
       return ResponseEntity.created(location).build();
+  }
+
+
+  @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id){
+         this.userDaoService.deleteUserById(id);
   }
 
 }

@@ -1,6 +1,7 @@
 package org.mobitel.springrest.Controller;
 
 
+import org.mobitel.springrest.Exception.UserNotFoundException;
 import org.mobitel.springrest.User.User;
 import org.mobitel.springrest.User.UserDaoService;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,11 @@ public class UserController {
 
     @GetMapping("/{userid}")
     public User retrieveAllUsers(@PathVariable int userid){
-        return  this.userDaoService.findOne(userid);
-
+        User user =this.userDaoService.findOne(userid);
+        if(user== null){
+            throw new UserNotFoundException("User with id : " +userid + "has not found!");
+        }
+        return user;
     }
 
  /*   @PostMapping("")

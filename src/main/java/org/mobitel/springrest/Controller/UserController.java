@@ -5,10 +5,13 @@ import jakarta.validation.Valid;
 import org.mobitel.springrest.Exception.UserNotFoundException;
 import org.mobitel.springrest.User.User;
 import org.mobitel.springrest.User.UserDaoService;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.swing.text.html.parser.Entity;
 import java.net.URI;
 import java.util.List;
 
@@ -28,12 +31,15 @@ public class UserController {
     }
 
     @GetMapping("/{userid}")
-    public User retrieveAllUsers(@PathVariable int userid){
+    public EntityModel<User> retrieveAllUsers(@PathVariable int userid){
         User user =this.userDaoService.findOne(userid);
         if(user== null){
             throw new UserNotFoundException("User with id : " +userid + "has not found!");
         }
-        return user;
+        EntityModel<User> entityModel =  EntityModel.of(user);
+        WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
+        entityModel.add(link.withRel("All-users"));
+        return entityModel;
     }
 
  /*   @PostMapping("")

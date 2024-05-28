@@ -1,15 +1,17 @@
 package org.mobitel.springrest.Bean;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 // using JsonIgnoreProperties
-@JsonIgnoreProperties({"field1","field2"})
+//@JsonIgnoreProperties({"field1","field2"})
+@JsonFilter("someBeanFilter") // adding this line for dynamic filtering.
 public class someBean {
     private String field1;
 
 
-    @JsonIgnore
+   // @JsonIgnore
     private String field2;
     private String field3;
 
